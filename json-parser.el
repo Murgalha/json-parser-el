@@ -9,8 +9,8 @@ nil otherwise."
 
 (defun peek-ahead ()
   "Return the single-byte string ahead of (point)."
-  (let ((point (1+ (point)))
-	(buffer-substring point (1+ point)))))
+  (let ((point (1+ (point))))
+	(buffer-substring point (1+ point))))
 
 (defun skip-whitespaces ()
   "Ignore whitespaces, jumping to next valid character"
