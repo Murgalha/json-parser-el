@@ -51,6 +51,7 @@ nil otherwise."
 		(array-end "]")
 		(parsed-array '()))
 	(skip-chars-forward array-begin)
+	(skip-whitespaces)
 	(while (not (string= (peek) array-end))
 	  (if (string= (peek) ",")
 		  (progn
