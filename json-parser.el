@@ -74,6 +74,14 @@ nil otherwise."
 	(forward-char 4))
   return-value))
 
+
+(defun parse-null ()
+  (if (string= (buffer-substring (point) (+ (point) 4)) "null")
+	  (progn
+		(forward-char 4)
+		'())))
+
+
 (defun parse-token ()
   "Parse value from JSON. Values can be either strings,
 array, jsons, numbers or booleans"
@@ -84,7 +92,9 @@ array, jsons, numbers or booleans"
 		((string= (peek) "{") (parse-json))
 		((string= (peek) "[") (parse-array))
 		((string-match-p (regexp-quote (peek)) "1234567890.") (parse-number))
-		((or (string= (peek) "f") (string= (peek) "t")) (parse-boolean))))
+		((or (string= (peek) "f") (string= (peek) "t")) (parse-boolean))
+		((string= (peek) "n") (parse-null))))
+
 
 (defun parse-json ()
   "Parse JSON from given string."
