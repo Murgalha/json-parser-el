@@ -76,11 +76,16 @@ nil otherwise."
   return-value))
 
 
-(defun parse-null ()
+(defun parse-null-or-undefined ()
+  "Parses the 'null' or 'undefined' keywords, returning NIL"
   (if (string= (buffer-substring (point) (+ (point) 4)) "null")
-	  (progn
-		(forward-char 4)
-		'())))
+	    (progn
+		    (forward-char 4)
+		    '()))
+  (if (string= (buffer-substring (point) (+ (point) 9)) "undefined")
+	    (progn
+		    (forward-char 9)
+		    '())))
 
 
 (defun parse-token ()
@@ -94,7 +99,7 @@ array, jsons, numbers or booleans"
 		((string= (peek) "[") (parse-array))
 		((string-match-p (regexp-quote (peek)) "1234567890.") (parse-number))
 		((or (string= (peek) "f") (string= (peek) "t")) (parse-boolean))
-		((string= (peek) "n") (parse-null))))
+		((or (string= (peek) "n") (string= (peek) "u")) (parse-null-or-undefined))))
 
 
 (defun parse-json ()
